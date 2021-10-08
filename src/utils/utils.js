@@ -1,7 +1,9 @@
 import { Cards } from "./cards";
 
+import { store } from "react-context-hook";
+
 //Fisher-Yates Shuffle
-function shuffle(array) {
+export function shuffle(array) {
   var m = array.length,
     t,
     i;
@@ -29,10 +31,36 @@ export function dealHands() {
   for (let i = 0; i < 3; i++) {
     let hand = [];
     for (let j = 0; j < 6; j++) {
-      hand.push(deck[j + 6 * i]);
+      hand.push(deck[j + 6 * i].id);
     }
     hands.push(hand);
   }
 
   return hands;
+}
+
+export function removeCard(hand, cardID) {
+  for (let i = 0; i < hand.length; i++) {
+    if (hand[i] == cardID) {
+      hand[i] = null;
+    }
+  }
+  return hand;
+}
+
+export function getCardInfo(cardID) {
+  return Cards.filter((card) => card.id === cardID)[0];
+}
+
+export function getPlayer(playerID) {
+  const player1ID = store.getState().game.player1;
+  const player2ID = store.getState().game.player2;
+
+  if (playerID === player1ID) {
+    return "player1";
+  } else if (playerID === player2ID) {
+    return "player2";
+  }
+
+  return null;
 }

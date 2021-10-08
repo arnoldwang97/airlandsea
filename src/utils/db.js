@@ -2,8 +2,9 @@ import db from "./firebase";
 import { ref, set, update, onValue, runTransaction } from "firebase/database";
 import ShortUniqueId from "short-unique-id";
 import { store } from "react-context-hook";
-import { dealHands } from "./utils";
+import { dealHands, getPlayer } from "./utils";
 import { shuffle } from "./utils";
+import { removeCard } from "./utils";
 
 export function createRoom(cb) {
   const playerID = store.getState().id;
@@ -62,4 +63,45 @@ export function startGame(roomID, players) {
   };
 
   update(ref(db), updates);
+}
+
+export function playCardToTheater(roomID, theater) {
+  const playerID = store.getState().id;
+  const cardID = store.getState().selectedCardID;
+
+  if (cardID == null) {
+    return;
+  }
+
+  runTransaction(ref(db, "games/" + roomID), (game) => {
+    const playerKey = getPlayer(playerID);
+    let theaters = game.theaters;
+    if (theaters == null) {
+      theaters = {};
+    }
+    if (theaters[theater] == null) {
+      theaters[theater] = {};
+    }
+    if (theaters[theater][playerKey] == null) {
+      theaters[theater][playerKey] = [];
+    }
+    theaters[theater][playerKey].push({
+      id: cardID,
+      facedown: false,
+    });
+    game.hands[playerKey] = removeCard(game.hands[playerKey], cardID);
+    game.theaters = theaters;
+
+    return game;
+  });
+}
+
+export function returnCardToHand(cardID) {
+  const playerID = store.getState().id;
+  runTransaction(ref(db, "games/" + roomID), (game) => {
+    game.hands[getPlayer(playerID)].push({
+      id: cardID,
+      facedown: false,
+    });
+  });
 }
