@@ -11,6 +11,7 @@ export default function Game(props) {
   const [gameData, setGameData] = useStore("game", null);
   const [playerID] = useStore("id", null);
   const [selectedCardID, setSelectedCardID] = useStore("selectedCardID", null);
+  const [nextFacedown, setNextFacedown] = useStore("nextFacedown", false);
 
   useEffect(() => {
     getGameData(id, (data) => {
@@ -46,6 +47,14 @@ export default function Game(props) {
         ))}
       </div>
       <Board id={id} gameData={gameData} />
+      <input
+        type="checkbox"
+        id="nextFacedown"
+        name="nextFacedown"
+        onChange={(event) => setNextFacedown(event.target.checked)}
+      />
+      <label for="nextFacedown">Enable Facedown</label>
+
       <div style={{ display: "flex", flexDirection: "row" }}>
         {playerHand?.map((cardID) => (
           <Card
@@ -60,7 +69,6 @@ export default function Game(props) {
           />
         ))}
       </div>
-      <button onClick={() => {}} />
     </div>
   );
 }

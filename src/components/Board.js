@@ -73,7 +73,8 @@ function TheaterSide({ opposite, player, theater }) {
           onClick={() => {
             switch (specialBoardAction) {
               case "redeploy":
-                returnCardToHand(card.id);
+                console.log(specialBoardAction);
+              //returnCardToHand(card.id);
             }
           }}
         />

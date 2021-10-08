@@ -68,6 +68,8 @@ export function startGame(roomID, players) {
 export function playCardToTheater(roomID, theater) {
   const playerID = store.getState().id;
   const cardID = store.getState().selectedCardID;
+  const isNextFacedown = store.getState().nextFacedown ?? false;
+  console.log(isNextFacedown);
 
   if (cardID == null) {
     return;
@@ -87,7 +89,7 @@ export function playCardToTheater(roomID, theater) {
     }
     theaters[theater][playerKey].push({
       id: cardID,
-      facedown: false,
+      facedown: isNextFacedown,
     });
     game.hands[playerKey] = removeCard(game.hands[playerKey], cardID);
     game.theaters = theaters;
@@ -111,6 +113,9 @@ export function returnCardToHand(cardID) {
       const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
       if (cardIDs?.includes(cardID)) {
         game.theaters[theater][playerKey].splice(cardIDs.indexOf(cardID), 1);
+        if (game.hands[playerKey] == null) {
+          game.hands[playerKey] = [];
+        }
         game.hands[playerKey].push(cardID);
       }
     });
