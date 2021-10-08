@@ -1,36 +1,52 @@
-import { getCardInfo } from "../utils/utils";
-import Facedown from "./Facedown";
 import { useStore } from "react-context-hook";
 import { setUserProperties } from "@firebase/analytics";
 
-export default function Card(props) {
+import { getCardInfo, getTheaterColor } from "../utils/utils";
+import Facedown from "./Facedown";
+
+export default function Card({ id, facedown = false, opposite, onClick }) {
   const [selectedCardID] = useStore("selectedCardID", null);
 
-  const id = props.id;
-  const facedown = props.facedown ?? false;
+  let cardInfo = getCardInfo(id);
+  if (cardInfo == null) {
+    return null;
+  }
 
-  if (facedown) {
-    return <Facedown />;
-  } else {
-    let cardInfo = getCardInfo(id);
-    if (cardInfo == null) {
-      return null;
-    }
-    return (
+  let color = facedown ? "#424554" : getTheaterColor(cardInfo.theater);
+
+  return (
+    <div
+      style={{
+        minHeight: 150,
+        width: 100,
+        backgroundColor: "#fff",
+        textAlign: "center",
+        border: "6px solid " + color,
+        borderRadius: 4,
+        display: "flex",
+        padding: 2,
+        ...{
+          outline: selectedCardID === id ? "4px solid #e4da7a" : "",
+          flexDirection: opposite ? "column-reverse" : "column",
+        },
+      }}
+      onClick={onClick}
+    >
       <div
         style={{
-          height: 150,
-          width: 100,
-          border: selectedCardID === id ? "2px solid green" : "1px solid black",
-          textAlign: "center",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingLeft: 4,
+          paddingRight: 4,
+          fontSize: 16,
         }}
-        onClick={props.onClick}
       >
-        {cardInfo.value}
+        <div style={{ fontWeight: "bold" }}>{cardInfo.value}</div>
         {cardInfo.name}
-        {cardInfo.description}
-        {cardInfo.theater}
       </div>
-    );
-  }
+      <div style={{ height: 40 }} />
+      <div style={{ fontSize: 12 }}>{cardInfo.description}</div>
+    </div>
+  );
 }

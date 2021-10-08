@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useStore } from "react-context-hook";
 
 import { getGameData, playCardToTheater } from "../utils/db";
-import Facedown from "./Facedown";
-import Card from "./Card";
+
+import Hand from "./Hand";
 import Board from "./Board";
 
 export default function Game(props) {
@@ -41,11 +41,7 @@ export default function Game(props) {
         height: "100vh",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {otherPlayerHand?.map((_) => (
-          <Facedown />
-        ))}
-      </div>
+      <Hand cardIDs={otherPlayerHand} />
       <Board id={id} gameData={gameData} />
       <input
         type="checkbox"
@@ -55,20 +51,7 @@ export default function Game(props) {
       />
       <label for="nextFacedown">Enable Facedown</label>
 
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {playerHand?.map((cardID) => (
-          <Card
-            id={cardID}
-            onClick={() => {
-              if (selectedCardID === cardID) {
-                setSelectedCardID(null);
-              } else {
-                setSelectedCardID(cardID);
-              }
-            }}
-          />
-        ))}
-      </div>
+      <Hand cardIDs={playerHand} hidden={false} />
     </div>
   );
 }
