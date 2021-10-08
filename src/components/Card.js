@@ -32,21 +32,27 @@ export default function Card({ id, facedown = false, opposite, onClick }) {
       }}
       onClick={onClick}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingLeft: 4,
-          paddingRight: 4,
-          fontSize: 16,
-        }}
-      >
-        <div style={{ fontWeight: "bold" }}>{cardInfo.value}</div>
-        {cardInfo.name}
-      </div>
-      <div style={{ height: 40 }} />
-      <div style={{ fontSize: 12 }}>{cardInfo.description}</div>
+      {facedown ? (
+        <div>2</div>
+      ) : (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingLeft: 4,
+              paddingRight: 4,
+              fontSize: 16,
+            }}
+          >
+            <div style={{ fontWeight: "bold" }}>{cardInfo.value}</div>
+            {cardInfo.name}
+          </div>
+          <div style={{ height: 40 }} />
+          <div style={{ fontSize: 12 }}>{cardInfo.description}</div>
+        </>
+      )}
     </div>
   );
 }
