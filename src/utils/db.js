@@ -97,11 +97,23 @@ export function playCardToTheater(roomID, theater) {
 }
 
 export function returnCardToHand(cardID) {
+  const selectedCardID = store.getState().selectedCardID;
+  if (selectedCardID != null) {
+    return;
+  }
   const playerID = store.getState().id;
+  const roomID = store.getState().roomID;
+
+  const playerKey = getPlayer(playerID);
+
   runTransaction(ref(db, "games/" + roomID), (game) => {
-    game.hands[getPlayer(playerID)].push({
-      id: cardID,
-      facedown: false,
+    Object.keys(game.theaters).forEach((theater) => {
+      const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
+      if (cardIDs?.includes(cardID)) {
+        game.theaters[theater][playerKey].splice(cardIDs.indexOf(cardID), 1);
+        game.hands[playerKey].push(cardID);
+      }
     });
+    return game;
   });
 }

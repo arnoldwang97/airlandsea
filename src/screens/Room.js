@@ -10,10 +10,12 @@ export default function Room() {
   let { id } = useParams();
   const [roomData, setRoomData] = useStore("room", null);
   const [playerID] = useStore("id", null);
+  const [, setRoomID] = useStore("roomID", null);
 
   useEffect(() => {
     getRoomData(id, (data) => {
       setRoomData(data);
+      setRoomID(id);
     });
   }, [id]);
 

@@ -40,11 +40,11 @@ export function dealHands() {
 }
 
 export function removeCard(hand, cardID) {
-  for (let i = 0; i < hand.length; i++) {
-    if (hand[i] == cardID) {
-      hand[i] = null;
-    }
+  const index = hand.indexOf(cardID);
+  if (index < 0) {
+    return;
   }
+  hand.splice(index, 1);
   return hand;
 }
 

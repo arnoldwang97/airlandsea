@@ -1,7 +1,7 @@
 import { useStore } from "react-context-hook";
 
 import { Cards } from "../utils/cards";
-import { playCardToTheater } from "../utils/db";
+import { playCardToTheater, returnCardToHand } from "../utils/db";
 import { getPlayer } from "../utils/utils";
 import Card from "./Card";
 
@@ -11,6 +11,7 @@ export default function Board({ id, gameData }) {
 
   const yourPlayer = getPlayer(playerID) ?? "player1";
   const otherPlayer = yourPlayer === "player1" ? "player2" : "player1";
+
   return (
     <div
       style={{
@@ -55,6 +56,7 @@ export default function Board({ id, gameData }) {
 
 function TheaterSide({ opposite, player, theater }) {
   const [specialBoardAction] = useStore("specialBoardAction", "redeploy");
+
   return (
     <div
       style={{
