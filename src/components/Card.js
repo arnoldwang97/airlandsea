@@ -4,7 +4,13 @@ import { setUserProperties } from "@firebase/analytics";
 import { getCardInfo, getTheaterColor } from "../utils/utils";
 import Facedown from "./Facedown";
 
-export default function Card({ id, facedown = false, opposite, onClick }) {
+export default function Card({
+  id,
+  facedown = false,
+  isYours = false,
+  opposite,
+  onClick,
+}) {
   const [selectedCardID] = useStore("selectedCardID", null);
 
   let cardInfo = getCardInfo(id);
