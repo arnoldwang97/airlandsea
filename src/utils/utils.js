@@ -64,3 +64,14 @@ export function getPlayer(playerID) {
 
   return null;
 }
+
+export function getTheaterColor(theater) {
+  switch (theater) {
+    case "land":
+      return "#59985d";
+    case "sea":
+      return "#5878a1";
+    case "air":
+      return "#acaaa4";
+  }
+}

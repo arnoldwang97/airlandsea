@@ -2,7 +2,7 @@ import { useStore } from "react-context-hook";
 
 import { Cards } from "../utils/cards";
 import { playCardToTheater, returnCardToHand } from "../utils/db";
-import { getPlayer } from "../utils/utils";
+import { getPlayer, getTheaterColor } from "../utils/utils";
 import Card from "./Card";
 
 export default function Board({ id, gameData }) {
@@ -38,8 +38,10 @@ export default function Board({ id, gameData }) {
             style={{
               width: 300,
               height: 150,
-              border: "3px solid gray",
+              border: "10px solid " + getTheaterColor(theater),
               textAlign: "center",
+              marginTop: 8,
+              marginBottom: 8,
             }}
           >
             {theater}
@@ -60,23 +62,33 @@ function TheaterSide({ opposite, player, theater }) {
   return (
     <div
       style={{
+        position: "relative",
         height: "30vh",
         width: 300,
         display: "flex",
         flexDirection: opposite ? "column-reverse" : "column",
       }}
     >
-      {theater?.[player]?.map((card) => (
-        <Card
-          id={card.id}
-          facedown={card.facedown}
-          onClick={() => {
-            switch (specialBoardAction) {
-              case "redeploy":
-                returnCardToHand(card.id);
-            }
+      {theater?.[player]?.map((card, index) => (
+        <div
+          style={{
+            zIndex: index,
+            position: "absolute",
+            [opposite ? "bottom" : "top"]: index * 30,
           }}
-        />
+        >
+          <Card
+            id={card.id}
+            opposite={opposite}
+            facedown={card.facedown}
+            onClick={() => {
+              switch (specialBoardAction) {
+                case "redeploy":
+                  returnCardToHand(card.id);
+              }
+            }}
+          />
+        </div>
       ))}
     </div>
   );

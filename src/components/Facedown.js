@@ -4,8 +4,12 @@ export default function Facedown() {
       style={{
         height: 150,
         width: 100,
-        border: "3px solid blue",
+        backgroundColor: "#fff",
         textAlign: "center",
+        border: "6px solid #424554",
+        borderRadius: 4,
+        display: "flex",
+        padding: 2,
       }}
     >
       2
