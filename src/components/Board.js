@@ -80,7 +80,7 @@ function TheaterSide({ opposite, player, theater, isYours }) {
           style={{
             zIndex: index,
             position: "absolute",
-            [opposite ? "bottom" : "top"]: index * 28,
+            [opposite ? "bottom" : "top"]: index * 32,
           }}
         >
           <Card
