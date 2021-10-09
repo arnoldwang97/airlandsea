@@ -45,7 +45,8 @@ export default function Card({
         {facedown ? (
           <div
             style={{
-              height: CARD_HEIGHT,
+              margin: -2,
+              height: CARD_HEIGHT + 4,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -61,6 +62,7 @@ export default function Card({
           <>
             <div
               style={{
+                margin: -2,
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
