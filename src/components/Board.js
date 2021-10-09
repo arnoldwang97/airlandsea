@@ -1,7 +1,7 @@
 import { useStore } from "react-context-hook";
 
 import { Cards } from "../utils/cards";
-import { playCardToTheater, returnCardToHand } from "../utils/db";
+import { playCardToTheater, returnCardToHand, flipCard } from "../utils/db";
 import { getPlayer, getTheaterColor } from "../utils/utils";
 import Card from "./Card";
 
@@ -85,6 +85,10 @@ function TheaterSide({ opposite, player, theater }) {
               switch (specialBoardAction) {
                 case "redeploy":
                   returnCardToHand(card.id);
+                  break;
+                case "flip uncover":
+                  flipCard(card.id);
+                  break;
               }
             }}
           />
