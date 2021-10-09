@@ -63,33 +63,26 @@ export default function Game(props) {
             onChange={(event) => setNextFacedown(event.target.checked)}
           />
           <label for="nextFacedown">Enable Facedown</label>
+          <select
+            name="actionBox"
+            onChange={(event) => {
+              switch (event.target.value) {
+                case "Default":
+                  setSpecialBoardAction("redeploy");
+                  break;
+                case "Flip Uncovered Card":
+                  setSpecialBoardAction("flip uncover");
+                  break;
+              }
+            }}
+          >
+            <option>Default</option>
+            <option>Flip Uncovered Card</option>
+          </select>
           <Hand cardIDs={playerHand} hidden={false} />
         </div>
       </div>
       <Board id={id} gameData={gameData} />
-      <input
-        type="checkbox"
-        id="nextFacedown"
-        name="nextFacedown"
-        onChange={(event) => setNextFacedown(event.target.checked)}
-      />
-      <label for="nextFacedown">Enable Facedown</label>
-      <select
-        name="actionBox"
-        onChange={(event) => {
-          switch (event.target.value) {
-            case "Default":
-              setSpecialBoardAction("redeploy");
-              break;
-            case "Flip Uncovered Card":
-              setSpecialBoardAction("flip uncover");
-              break;
-          }
-        }}
-      >
-        <option>Default</option>
-        <option>Flip Uncovered Card</option>
-      </select>
     </div>
   );
 }
