@@ -2,7 +2,7 @@ import { useStore } from "react-context-hook";
 
 import { Cards } from "../utils/cards";
 import { playCardToTheater, returnCardToHand } from "../utils/db";
-import { getPlayer, getTheaterColor } from "../utils/utils";
+import { getPlayer, getTheaterColor, getTheaterName } from "../utils/utils";
 import Card from "./Card";
 
 export default function Board({ id, gameData }) {
@@ -28,6 +28,7 @@ export default function Board({ id, gameData }) {
             playCardToTheater(id, theater);
             setSelectedCardID(null);
           }}
+          style={{ flex: 1 }}
         >
           <TheaterSide
             opposite={true}
@@ -36,18 +37,23 @@ export default function Board({ id, gameData }) {
           />
           <div
             style={{
-              width: 300,
+              display: "flex",
               height: 150,
-              border: "10px solid " + getTheaterColor(theater),
-              textAlign: "center",
+              backgroundColor: getTheaterColor(theater),
+              justifyContent: "center",
+              alignItems: "center",
               marginTop: 8,
               marginBottom: 8,
+              fontSize: 70,
+              fontWeight: 600,
+              color: "#fff",
             }}
           >
-            {theater}
+            {getTheaterName(theater)}
           </div>
           <TheaterSide
             player={yourPlayer}
+            isYours={yourPlayer === getPlayer(playerID)}
             theater={gameData?.theaters?.[theater]}
           />
         </div>
@@ -56,15 +62,15 @@ export default function Board({ id, gameData }) {
   );
 }
 
-function TheaterSide({ opposite, player, theater }) {
+function TheaterSide({ opposite, player, theater, isYours }) {
   const [specialBoardAction] = useStore("specialBoardAction", "redeploy");
 
   return (
     <div
       style={{
+        alignItems: "center",
         position: "relative",
         height: "30vh",
-        width: 300,
         display: "flex",
         flexDirection: opposite ? "column-reverse" : "column",
       }}
@@ -74,11 +80,12 @@ function TheaterSide({ opposite, player, theater }) {
           style={{
             zIndex: index,
             position: "absolute",
-            [opposite ? "bottom" : "top"]: index * 30,
+            [opposite ? "bottom" : "top"]: index * 28,
           }}
         >
           <Card
             id={card.id}
+            isYours={isYours}
             opposite={opposite}
             facedown={card.facedown}
             onClick={() => {

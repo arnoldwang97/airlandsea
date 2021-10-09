@@ -37,21 +37,32 @@ export default function Game(props) {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         height: "100vh",
       }}
     >
-      <Hand cardIDs={otherPlayerHand} />
+      <div
+        style={{
+          minWidth: "40vw",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          borderRight: "1px solid #d1d1d1",
+        }}
+      >
+        <Hand cardIDs={otherPlayerHand} />
+        <div>
+          <input
+            type="checkbox"
+            id="nextFacedown"
+            name="nextFacedown"
+            onChange={(event) => setNextFacedown(event.target.checked)}
+          />
+          <label for="nextFacedown">Enable Facedown</label>
+          <Hand cardIDs={playerHand} hidden={false} />
+        </div>
+      </div>
       <Board id={id} gameData={gameData} />
-      <input
-        type="checkbox"
-        id="nextFacedown"
-        name="nextFacedown"
-        onChange={(event) => setNextFacedown(event.target.checked)}
-      />
-      <label for="nextFacedown">Enable Facedown</label>
-
-      <Hand cardIDs={playerHand} hidden={false} />
     </div>
   );
 }

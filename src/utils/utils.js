@@ -75,3 +75,7 @@ export function getTheaterColor(theater) {
       return "#acaaa4";
   }
 }
+
+export function getTheaterName(theater) {
+  return theater.charAt(0).toUpperCase() + theater.slice(1);
+}

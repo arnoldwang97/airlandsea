@@ -1,0 +1,21 @@
+.popover {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: calc(100% + 10px);
+  width: 150px;
+  min-height: 100px;
+  background-color: #fff;
+  padding: 4px;
+  text-align: left;
+  z-index: 99;
+}
+
+.anchor:hover + .popover {
+  display: block;
+}
+
+.anchor {
+  cursor: default;
+  position: relative;
+}
