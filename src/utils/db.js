@@ -87,6 +87,13 @@ export function playCardToTheater(roomID, theater) {
     if (theaters[theater][playerKey] == null) {
       theaters[theater][playerKey] = [];
     }
+
+    //reinforce add card to hand
+    if (cardID == 13 && !isNextFacedown) {
+      let drawnCardID = game.hands.deck[0];
+      game.hands.deck = removeCard(game.hands.deck, drawnCardID);
+      game.hands[playerKey].push(drawnCardID);
+    }
     theaters[theater][playerKey].push({
       id: cardID,
       facedown: isNextFacedown,

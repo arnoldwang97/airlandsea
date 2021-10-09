@@ -55,6 +55,7 @@ export default function Game(props) {
         }}
       >
         <Hand cardIDs={otherPlayerHand} />
+        <div></div>
         <div>
           <input
             type="checkbox"
