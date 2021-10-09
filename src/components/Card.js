@@ -6,6 +6,7 @@ import Facedown from "./Facedown";
 import "../css/Card.css";
 
 const CARD_HEIGHT = 180;
+const CARD_WIDTH = 120;
 
 export default function Card({
   id,
@@ -23,68 +24,88 @@ export default function Card({
 
   let color = facedown ? "#616575" : getTheaterColor(cardInfo.theater);
 
+  let displayCardInfo = cardInfo;
+  if (facedown) {
+    displayCardInfo = {
+      value: 2,
+      description: null,
+      name: "",
+    };
+  }
+
+  const cardTitleStyle = {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
+  };
+
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <div
         style={{
           minHeight: CARD_HEIGHT,
-          width: 120,
-          backgroundColor: "#fff",
+          width: CARD_WIDTH,
+          backgroundColor: color,
           textAlign: "left",
           border: "6px solid " + color,
           borderRadius: 4,
+          padding: 4,
           display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#fff",
           ...{
             outline:
               selectedCardID === id ? "4px solid #e4da7a" : "2px solid #fff",
             flexDirection: opposite ? "column-reverse" : "column",
           },
         }}
-        onClick={onClick}
+        onClick={isYours ? onClick : null}
         className="anchor"
       >
-        {facedown ? (
-          <div
-            style={{
-              margin: -2,
-              height: CARD_HEIGHT + 4,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 50,
-              fontWeight: 600,
-              backgroundColor: color,
-              color: "#fff",
-            }}
-          >
-            2
+        <div
+          style={{
+            ...cardTitleStyle,
+            position: "absolute",
+            top: 0,
+            [opposite ? "right" : "left"]: 0,
+          }}
+        >
+          {displayCardInfo.value}
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            [opposite ? "bottom" : "top"]: 0,
+            right: 0,
+            fontSize: 16,
+            color: "#fff",
+            textAlign: "right",
+          }}
+        >
+          <div style={{ fontSize: displayCardInfo.name.length > 9 ? 12 : 16 }}>
+            {displayCardInfo.name}
           </div>
-        ) : (
-          <>
-            <div
-              style={{
-                margin: -2,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingLeft: 4,
-                paddingRight: 4,
-                fontSize: 16,
-                backgroundColor: color,
-                color: "#fff",
-                [opposite ? "paddingTop" : "paddingBottom"]: 4,
-                alignItems: "center",
-              }}
-            >
-              <div style={{ fontWeight: "bold" }}>{cardInfo.value}</div>
-              {cardInfo.name}
+        </div>
+        <div>
+          {displayCardInfo.description != null ? (
+            <div style={{ fontSize: 13 }}>{displayCardInfo.description}</div>
+          ) : (
+            <div style={{ fontSize: 40, fontWeight: 500 }}>
+              {displayCardInfo.value}
             </div>
-            <div style={{ height: 40 }} />
-            <div style={{ fontSize: 12, padding: 8 }}>
-              {cardInfo.description}
-            </div>
-          </>
-        )}
+          )}
+        </div>
+        <div
+          style={{
+            ...cardTitleStyle,
+            position: "absolute",
+            bottom: 0,
+            [opposite ? "left" : "right"]: 0,
+          }}
+        >
+          {displayCardInfo.value}
+        </div>
       </div>
       {facedown && !isYours ? null : (
         <div
@@ -95,9 +116,9 @@ export default function Card({
             style={{
               display: "flex",
               flexDirection: "row",
-              paddingLeft: 4,
               paddingRight: 4,
               fontSize: 20,
+              marginBottom: 4,
             }}
           >
             <div style={{ fontWeight: "bold", marginRight: 8 }}>
@@ -108,6 +129,6 @@ export default function Card({
           <div style={{ fontSize: 16 }}>{cardInfo.description}</div>
         </div>
       )}
-    </>
+    </div>
   );
 }

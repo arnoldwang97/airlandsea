@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useStore } from "react-context-hook";
 
-import { getGameData, playCardToTheater } from "../utils/db";
+import { getGameData, playCardToTheater, restartGame } from "../utils/db";
 
 import Hand from "./Hand";
 import Board from "./Board";
@@ -68,7 +68,7 @@ export default function Game(props) {
             name="actionBox"
             onChange={(event) => {
               switch (event.target.value) {
-                case "Default":
+                case "Return Card To Hand":
                   setSpecialBoardAction("redeploy");
                   break;
                 case "Flip Uncovered Card":
@@ -77,9 +77,10 @@ export default function Game(props) {
               }
             }}
           >
-            <option>Default</option>
+            <option>Return Card To Hand</option>
             <option>Flip Uncovered Card</option>
           </select>
+          <button onClick={restartGame}>End Game</button>
           <Hand cardIDs={playerHand} hidden={false} />
         </div>
       </div>

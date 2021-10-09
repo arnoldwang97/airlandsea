@@ -3,7 +3,13 @@ export const Cards = [
     name: "Support",
     value: 1,
     id: 1,
-    description: "You gain +3 Strength in each adjacent Theater.",
+    description: (
+      <>
+        {"You gain "}
+        <b>+3</b>
+        {" Strength in each adjacent Theater."}
+      </>
+    ),
     theater: "air",
   },
   {
@@ -25,8 +31,13 @@ export const Cards = [
     name: "Aerodrome",
     value: 4,
     id: 4,
-    description:
-      "You may play cards of strength 3 or less to non-matching Theaters.",
+    description: (
+      <>
+        {"You may play cards of strength "}
+        <b>3</b>
+        {" or less to non-matching Theaters."}
+      </>
+    ),
     theater: "air",
   },
   {
@@ -40,14 +51,20 @@ export const Cards = [
     name: "Heavy Bombers",
     value: 6,
     id: 6,
-    description: "",
+    description: null,
     theater: "air",
   },
   {
     name: "Transport",
     value: 1,
     id: 7,
-    description: "You may move 1 of your cards to a different Theater.",
+    description: (
+      <>
+        {"You may move "}
+        <b>1</b>
+        {" of your cards to a different Theater."}
+      </>
+    ),
     theater: "sea",
   },
   {
@@ -68,30 +85,48 @@ export const Cards = [
     name: "Redeploy",
     value: 4,
     id: 10,
-    description:
-      "You may return 1 of your facedown cards to your hand. If you do, play a card.",
+    description: (
+      <>
+        {"You may return "}
+        <b>1</b>
+        {" of your facedown cards to your hand. If you do, play a card."}
+      </>
+    ),
     theater: "sea",
   },
   {
     name: "Blockade",
     value: 5,
     id: 11,
-    description:
-      "If any player plays a card to an adjacent Theater occupied by at least 3 other cards, destroy that card.",
+    description: (
+      <>
+        {
+          "If any player plays a card to an adjacent Theater occupied by at least "
+        }
+        <b>3</b>
+        {" other cards, destroy that card."}
+      </>
+    ),
     theater: "sea",
   },
   {
     name: "Super Battleship",
     value: 6,
     id: 12,
-    description: "",
+    description: null,
     theater: "sea",
   },
   {
     name: "Reinforce",
     value: 1,
     id: 13,
-    description: "Draw 1 card and play it facedown to an adjacent Theater.",
+    description: (
+      <>
+        {"Draw "}
+        <b>1</b>
+        {" card and play it facedown to an adjacent Theater."}
+      </>
+    ),
     theater: "land",
   },
   {
@@ -112,22 +147,33 @@ export const Cards = [
     name: "Cover Fire",
     value: 4,
     id: 16,
-    description: "All cards covered by this card are now strength 4.",
+    description: (
+      <>
+        {"All cards covered by this card are now strength "}
+        <b>4</b>
+        {"."}
+      </>
+    ),
     theater: "land",
   },
   {
     name: "Disrupt",
     value: 5,
     id: 17,
-    description:
-      "Starting with you, both players choose and flip 1 of their uncovered cards.",
+    description: (
+      <>
+        {"Starting with you, both players choose and flip "}
+        <b>1</b>
+        {" of their uncovered cards."}
+      </>
+    ),
     theater: "land",
   },
   {
     name: "Heavy Tanks",
     value: 6,
     id: 18,
-    description: "",
+    description: null,
     theater: "land",
   },
 ];

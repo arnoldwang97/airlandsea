@@ -143,10 +143,26 @@ export function flipCard(cardID) {
     Object.keys(game.theaters)?.forEach((theater) => {
       const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
       if (cardIDs?.includes(cardID)) {
-        game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown =
-          !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown;
+        game.theaters[theater][playerKey][
+          cardIDs.indexOf(cardID)
+        ].facedown = !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)]
+          .facedown;
       }
     });
     return game;
+  });
+}
+
+export function restartGame() {
+  const roomID = store.getState().roomID;
+
+  runTransaction(ref(db, "games/" + roomID), (game) => {
+    return null;
+  });
+  runTransaction(ref(db, "rooms/" + roomID), (room) => {
+    return {
+      ...room,
+      isPlaying: false,
+    };
   });
 }
