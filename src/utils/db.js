@@ -109,7 +109,7 @@ export function returnCardToHand(cardID) {
   const playerKey = getPlayer(playerID);
 
   runTransaction(ref(db, "games/" + roomID), (game) => {
-    Object.keys(game.theaters).forEach((theater) => {
+    Object.keys(game.theaters)?.forEach((theater) => {
       const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
       if (cardIDs?.includes(cardID)) {
         game.theaters[theater][playerKey].splice(cardIDs.indexOf(cardID), 1);
@@ -117,6 +117,27 @@ export function returnCardToHand(cardID) {
           game.hands[playerKey] = [];
         }
         game.hands[playerKey].push(cardID);
+      }
+    });
+    return game;
+  });
+}
+
+export function flipCard(cardID) {
+  const selectedCardID = store.getState().selectedCardID;
+  if (selectedCardID != null) {
+    return;
+  }
+  const playerID = store.getState().id;
+  const roomID = store.getState().roomID;
+
+  const playerKey = getPlayer(playerID);
+  runTransaction(ref(db, "games/" + roomID), (game) => {
+    Object.keys(game.theaters)?.forEach((theater) => {
+      const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
+      if (cardIDs?.includes(cardID)) {
+        game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown =
+          !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown;
       }
     });
     return game;
