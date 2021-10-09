@@ -35,7 +35,8 @@ export default function Card({
           borderRadius: 4,
           display: "flex",
           ...{
-            outline: selectedCardID === id ? "4px solid #e4da7a" : "",
+            outline:
+              selectedCardID === id ? "4px solid #e4da7a" : "2px solid #fff",
             flexDirection: opposite ? "column-reverse" : "column",
           },
         }}
