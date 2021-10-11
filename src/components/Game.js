@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useStore } from "react-context-hook";
 
 import { getGameData, playCardToTheater, restartGame } from "../utils/db";
+import { getPlayer } from "../utils/utils";
 
 import Hand from "./Hand";
 import Board from "./Board";
+import Commanders from "./Commanders";
 
 export default function Game(props) {
   const { id } = props;
@@ -55,7 +57,10 @@ export default function Game(props) {
         }}
       >
         <Hand cardIDs={otherPlayerHand} />
-        <div></div>
+        <Commanders
+          currentPlayer={getPlayer(playerID)}
+          otherPlayer={getPlayer(playerID) == "player1" ? "player2" : "player1"}
+        />
         <div>
           <input
             type="checkbox"
