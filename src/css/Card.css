@@ -20,3 +20,11 @@
   cursor: default;
   position: relative;
 }
+
+.left {
+  border: "6px solid #c42929";
+}
+
+.right {
+  border: "6px solid #1b2ccc";
+}
