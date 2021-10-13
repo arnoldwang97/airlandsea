@@ -55,8 +55,8 @@ export default function Card({
           justifyContent: "center",
           color: "#fff",
           ...{
-            outline:
-              selectedCardID === id ? "4px solid #e4da7a" : "2px solid #fff",
+            outline: selectedCardID === id ? "" : "2px solid #fff",
+            boxShadow: selectedCardID === id ? "0px 0px 5px 3px #fad460" : "",
             flexDirection: opposite ? "column-reverse" : "column",
           },
         }}

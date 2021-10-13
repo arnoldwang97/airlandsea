@@ -7,7 +7,14 @@ export default function Hand({ cardIDs, hidden = true }) {
   const [selectedCardID, setSelectedCardID] = useStore("selectedCardID", null);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", margin: 4 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        margin: 4,
+        alignItems: "flex-end",
+      }}
+    >
       {cardIDs?.map((cardID) => (
         <div style={{ marginLeft: 6 }}>
           <Card
