@@ -97,13 +97,10 @@ export function nextRound(roomID, playerID) {
     if (curP1 == playerID) {
       switch (cardsInHands) {
         case 6:
-          game.score[playerID] += 2;
         case 5:
-          game.score[playerID] += 2;
         case 4:
           game.score[playerID] += 2;
         case 3:
-          game.score[playerID] += 3;
         case 2:
           game.score[playerID] += 3;
         case 1:
@@ -114,17 +111,14 @@ export function nextRound(roomID, playerID) {
     } else {
       switch (cardsInHands) {
         case 6:
-          game.score[playerID] += 2;
         case 5:
           game.score[playerID] += 2;
         case 4:
-          game.score[playerID] += 3;
         case 3:
           game.score[playerID] += 3;
         case 2:
           game.score[playerID] += 4;
         case 1:
-          game.score[playerID] += 6;
         case 0:
           game.score[playerID] += 6;
       }
