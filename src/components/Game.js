@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useStore } from "react-context-hook";
 
-import { getGameData, playCardToTheater, restartGame } from "../utils/db";
+import {
+  getGameData,
+  nextRound,
+  playCardToTheater,
+  restartGame,
+} from "../utils/db";
 import { getPlayer } from "../utils/utils";
 
 import Hand from "./Hand";
@@ -86,6 +91,7 @@ export default function Game(props) {
             <option>Flip Uncovered Card</option>
           </select>
           <button onClick={restartGame}>End Game</button>
+          <button onClick={() => nextRound(id, playerID)}>Surrender</button>
           <Hand cardIDs={playerHand} hidden={false} />
         </div>
       </div>

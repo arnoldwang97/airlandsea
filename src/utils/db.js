@@ -60,9 +60,77 @@ export function startGame(roomID, players) {
       deck: hands[2],
     },
     order: shuffle(["air", "land", "sea"]).join("/"),
+    score: {
+      [players[0]]: 0,
+      [players[1]]: 0,
+    },
   };
 
   update(ref(db), updates);
+}
+
+export function nextRound(roomID, playerID) {
+  if (roomID == null) {
+    return;
+  }
+
+  runTransaction(ref(db, "games/" + roomID), (game) => {
+    const hands = dealHands();
+
+    const curP1 = game.player1;
+    const curP2 = game.player2;
+    const order = game.order.split("/");
+    const cardsInHands = game.hands[getPlayer(playerID)];
+    const elem = order.shift();
+    order.push(elem);
+
+    game.player1 = curP2;
+    game.player2 = curP1;
+    game.hands.player1 = hands[0];
+    game.hands.player2 = hands[1];
+    game.hands.deck = hands[2];
+    game.order = order.join("/");
+    game.theaters = {};
+
+    //updates scores
+
+    if (curP1 == playerID) {
+      switch (cardsInHands) {
+        case 6:
+          game.score[playerID] += 2;
+        case 5:
+          game.score[playerID] += 2;
+        case 4:
+          game.score[playerID] += 2;
+        case 3:
+          game.score[playerID] += 3;
+        case 2:
+          game.score[playerID] += 3;
+        case 1:
+          game.score[playerID] += 4;
+        case 0:
+          game.score[playerID] += 6;
+      }
+    } else {
+      switch (cardsInHands) {
+        case 6:
+          game.score[playerID] += 2;
+        case 5:
+          game.score[playerID] += 2;
+        case 4:
+          game.score[playerID] += 3;
+        case 3:
+          game.score[playerID] += 3;
+        case 2:
+          game.score[playerID] += 4;
+        case 1:
+          game.score[playerID] += 6;
+        case 0:
+          game.score[playerID] += 6;
+      }
+    }
+    return game;
+  });
 }
 
 export function playCardToTheater(roomID, theater) {
@@ -143,10 +211,8 @@ export function flipCard(cardID) {
     Object.keys(game.theaters)?.forEach((theater) => {
       const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
       if (cardIDs?.includes(cardID)) {
-        game.theaters[theater][playerKey][
-          cardIDs.indexOf(cardID)
-        ].facedown = !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)]
-          .facedown;
+        game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown =
+          !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown;
       }
     });
     return game;
