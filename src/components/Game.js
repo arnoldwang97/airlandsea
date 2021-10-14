@@ -7,7 +7,7 @@ import {
   playCardToTheater,
   restartGame,
 } from "../utils/db";
-import { getPlayer } from "../utils/utils";
+import { getPlayer, getPlayerScore, getOtherPlayerID } from "../utils/utils";
 
 import Hand from "./Hand";
 import Board from "./Board";
@@ -62,6 +62,7 @@ export default function Game(props) {
         }}
       >
         <Hand cardIDs={otherPlayerHand} />
+        <div>Score:{getPlayerScore(getOtherPlayerID(playerID))}</div>
         <Commanders
           currentPlayer={getPlayer(playerID)}
           otherPlayer={getPlayer(playerID) == "player1" ? "player2" : "player1"}
@@ -92,6 +93,7 @@ export default function Game(props) {
           </select>
           <button onClick={restartGame}>End Game</button>
           <button onClick={() => nextRound(id, playerID)}>Surrender</button>
+          <div>Score:{getPlayerScore(playerID)}</div>
           <Hand cardIDs={playerHand} hidden={false} />
         </div>
       </div>

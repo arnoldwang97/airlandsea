@@ -80,7 +80,7 @@ export function nextRound(roomID, playerID) {
     const curP1 = game.player1;
     const curP2 = game.player2;
     const order = game.order.split("/");
-    const cardsInHands = game.hands[getPlayer(playerID)];
+    const cardsInHands = game.hands[getPlayer(playerID)].length;
     const elem = order.shift();
     order.push(elem);
 
@@ -99,28 +99,36 @@ export function nextRound(roomID, playerID) {
         case 6:
         case 5:
         case 4:
-          game.score[playerID] += 2;
+          game.score[curP2] += 2;
+          break;
         case 3:
         case 2:
-          game.score[playerID] += 3;
+          game.score[curP2] += 3;
+          break;
         case 1:
-          game.score[playerID] += 4;
+          game.score[curP2] += 4;
+          break;
         case 0:
-          game.score[playerID] += 6;
+          game.score[curP2] += 6;
+          break;
       }
     } else {
       switch (cardsInHands) {
         case 6:
         case 5:
-          game.score[playerID] += 2;
+          game.score[curP1] += 2;
+          break;
         case 4:
         case 3:
-          game.score[playerID] += 3;
+          game.score[curP1] += 3;
+          break;
         case 2:
-          game.score[playerID] += 4;
+          game.score[curP1] += 4;
+          break;
         case 1:
         case 0:
-          game.score[playerID] += 6;
+          game.score[curP1] += 6;
+          break;
       }
     }
     return game;

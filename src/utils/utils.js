@@ -79,3 +79,12 @@ export function getTheaterColor(theater) {
 export function getTheaterName(theater) {
   return theater.charAt(0).toUpperCase() + theater.slice(1);
 }
+
+export function getOtherPlayerID(playerID) {
+  return playerID == store.getState().game?.player1
+    ? store.getState().game?.player2
+    : store.getState().game?.player1;
+}
+export function getPlayerScore(playerID) {
+  return store.getState().game?.score[playerID];
+}
