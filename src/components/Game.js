@@ -36,12 +36,15 @@ export default function Game(props) {
 
   let playerHand = [];
   let otherPlayerHand = [];
-  if (gameData.player1 === playerID) {
-    playerHand = gameData.hands.player1;
-    otherPlayerHand = gameData.hands.player2;
-  } else if (gameData.player2 === playerID) {
+  let showPlayerHand = false;
+  if (gameData.player2 === playerID) {
     playerHand = gameData.hands.player2;
     otherPlayerHand = gameData.hands.player1;
+    showPlayerHand = true;
+  } else {
+    playerHand = gameData.hands.player1;
+    otherPlayerHand = gameData.hands.player2;
+    showPlayerHand = gameData.player1 === playerID;
   }
 
   return (
@@ -65,36 +68,42 @@ export default function Game(props) {
         <div>Score:{getPlayerScore(getOtherPlayerID(playerID))}</div>
         <Commanders
           currentPlayer={getPlayer(playerID)}
-          otherPlayer={getPlayer(playerID) == "player1" ? "player2" : "player1"}
+          otherPlayer={
+            getPlayer(playerID) === "player2" ? "player1" : "player2"
+          }
         />
         <div>
-          <input
-            type="checkbox"
-            id="nextFacedown"
-            name="nextFacedown"
-            onChange={(event) => setNextFacedown(event.target.checked)}
-          />
-          <label for="nextFacedown">Enable Facedown</label>
-          <select
-            name="actionBox"
-            onChange={(event) => {
-              switch (event.target.value) {
-                case "Return Card To Hand":
-                  setSpecialBoardAction("redeploy");
-                  break;
-                case "Flip Uncovered Card":
-                  setSpecialBoardAction("flip uncover");
-                  break;
-              }
-            }}
-          >
-            <option>Return Card To Hand</option>
-            <option>Flip Uncovered Card</option>
-          </select>
-          <button onClick={restartGame}>End Game</button>
-          <button onClick={() => nextRound(id, playerID)}>Surrender</button>
-          <div>Score:{getPlayerScore(playerID)}</div>
-          <Hand cardIDs={playerHand} hidden={false} />
+          {gameData.player1 === playerID || gameData.player2 === playerID ? (
+            <div>
+              <input
+                type="checkbox"
+                id="nextFacedown"
+                name="nextFacedown"
+                onChange={(event) => setNextFacedown(event.target.checked)}
+              />
+              <label for="nextFacedown">Enable Facedown</label>
+              <select
+                name="actionBox"
+                onChange={(event) => {
+                  switch (event.target.value) {
+                    case "Return Card To Hand":
+                      setSpecialBoardAction("redeploy");
+                      break;
+                    case "Flip Uncovered Card":
+                      setSpecialBoardAction("flip uncover");
+                      break;
+                  }
+                }}
+              >
+                <option>Return Card To Hand</option>
+                <option>Flip Uncovered Card</option>
+              </select>
+              <button onClick={restartGame}>End Game</button>
+              <div>Score:{getPlayerScore(playerID)}</div>
+              <button onClick={() => nextRound(id, playerID)}>Surrender</button>
+            </div>
+          ) : null}
+          <Hand cardIDs={playerHand} hidden={!showPlayerHand} />
         </div>
       </div>
       <Board id={id} gameData={gameData} />
