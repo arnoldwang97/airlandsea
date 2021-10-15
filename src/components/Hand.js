@@ -18,6 +18,7 @@ export default function Hand({ cardIDs, hidden = true }) {
       {cardIDs?.map((cardID) => (
         <div style={{ marginLeft: 6 }}>
           <Card
+            inHand={true}
             isYours={!hidden}
             facedown={hidden}
             id={cardID}

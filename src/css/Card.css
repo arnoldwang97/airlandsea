@@ -1,8 +1,6 @@
 .popover {
   display: none;
   position: absolute;
-  top: 0;
-  left: calc(100% + 10px);
   width: 150px;
   min-height: 100px;
   background-color: #fff;

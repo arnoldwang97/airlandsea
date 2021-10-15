@@ -138,12 +138,13 @@ export function nextRound(roomID, playerID) {
 export function playCardToTheater(roomID, theater) {
   const playerID = store.getState().id;
   const cardID = store.getState().selectedCardID;
-  const isNextFacedown = store.getState().nextFacedown ?? false;
-  console.log(isNextFacedown);
+  const facedownCardID = store.getState().facedownCardID;
 
   if (cardID == null) {
     return;
   }
+
+  const playFacedown = cardID === facedownCardID;
 
   runTransaction(ref(db, "games/" + roomID), (game) => {
     const playerKey = getPlayer(playerID);
@@ -159,17 +160,19 @@ export function playCardToTheater(roomID, theater) {
     }
 
     //reinforce add card to hand
-    if (cardID == 13 && !isNextFacedown) {
+    if (cardID == 13 && !playFacedown) {
       let drawnCardID = game.hands.deck[0];
       game.hands.deck = removeCard(game.hands.deck, drawnCardID);
       game.hands[playerKey].push(drawnCardID);
     }
     theaters[theater][playerKey].push({
       id: cardID,
-      facedown: isNextFacedown,
+      facedown: playFacedown,
     });
     game.hands[playerKey] = removeCard(game.hands[playerKey], cardID);
     game.theaters = theaters;
+
+    store.set("facedownCardID", null);
 
     return game;
   });
@@ -213,8 +216,10 @@ export function flipCard(cardID) {
     Object.keys(game.theaters)?.forEach((theater) => {
       const cardIDs = game.theaters[theater][playerKey]?.map((card) => card.id);
       if (cardIDs?.includes(cardID)) {
-        game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown =
-          !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)].facedown;
+        game.theaters[theater][playerKey][
+          cardIDs.indexOf(cardID)
+        ].facedown = !game.theaters[theater][playerKey][cardIDs.indexOf(cardID)]
+          .facedown;
       }
     });
     return game;

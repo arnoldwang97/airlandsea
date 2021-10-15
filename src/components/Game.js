@@ -18,7 +18,6 @@ export default function Game(props) {
   const [gameData, setGameData] = useStore("game", null);
   const [playerID] = useStore("id", null);
   const [selectedCardID, setSelectedCardID] = useStore("selectedCardID", null);
-  const [nextFacedown, setNextFacedown] = useStore("nextFacedown", false);
   const [specialBoardAction, setSpecialBoardAction] = useStore(
     "specialBoardAction",
     "redeploy"
@@ -74,14 +73,7 @@ export default function Game(props) {
         />
         <div>
           {gameData.player1 === playerID || gameData.player2 === playerID ? (
-            <div>
-              <input
-                type="checkbox"
-                id="nextFacedown"
-                name="nextFacedown"
-                onChange={(event) => setNextFacedown(event.target.checked)}
-              />
-              <label for="nextFacedown">Enable Facedown</label>
+            <div style={{ marginBottom: 20 }}>
               <select
                 name="actionBox"
                 onChange={(event) => {
@@ -99,10 +91,10 @@ export default function Game(props) {
                 <option>Flip Uncovered Card</option>
               </select>
               <button onClick={restartGame}>End Game</button>
-              <div>Score:{getPlayerScore(playerID)}</div>
               <button onClick={() => nextRound(id, playerID)}>Surrender</button>
             </div>
           ) : null}
+          <div>Score:{getPlayerScore(playerID)}</div>
           <Hand cardIDs={playerHand} hidden={!showPlayerHand} />
         </div>
       </div>

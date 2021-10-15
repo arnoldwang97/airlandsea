@@ -14,18 +14,24 @@ export default function Card({
   isYours = false,
   opposite,
   onClick,
+  inHand = false,
 }) {
   const [selectedCardID] = useStore("selectedCardID", null);
+  const [facedownCardID, setFacedownCardID] = useStore("facedownCardID", null);
 
   let cardInfo = getCardInfo(id);
   if (cardInfo == null) {
     return null;
   }
 
-  let color = facedown ? "#616575" : getTheaterColor(cardInfo.theater);
+  const shouldDisplayFacedown = facedown || facedownCardID === id;
+
+  let color = shouldDisplayFacedown
+    ? "#616575"
+    : getTheaterColor(cardInfo.theater);
 
   let displayCardInfo = cardInfo;
-  if (facedown) {
+  if (shouldDisplayFacedown) {
     displayCardInfo = {
       value: 2,
       description: null,
@@ -41,6 +47,21 @@ export default function Card({
 
   return (
     <div style={{ position: "relative" }}>
+      <div style={{ height: 30 }}>
+        {selectedCardID === id ? (
+          <button
+            onClick={() => {
+              if (facedownCardID === id) {
+                setFacedownCardID(null);
+              } else {
+                setFacedownCardID(id);
+              }
+            }}
+          >
+            {facedownCardID === id ? "Play Face Up" : "Play Face Down"}
+          </button>
+        ) : null}
+      </div>
       <div
         style={{
           minHeight: CARD_HEIGHT,
@@ -110,7 +131,11 @@ export default function Card({
       {facedown && !isYours ? null : (
         <div
           className="popover"
-          style={{ border: "4px solid " + getTheaterColor(cardInfo.theater) }}
+          style={{
+            border: "4px solid " + getTheaterColor(cardInfo.theater),
+            [opposite ? "bottom" : "top"]: 0,
+            [inHand ? "left" : "right"]: "calc(100% + 10px)",
+          }}
         >
           <div
             style={{

@@ -22,7 +22,7 @@ export default function Board({ id, gameData }) {
         justifyContent: "center",
       }}
     >
-      {gameData.order.split("/").map((theater) => (
+      {gameData.order.split("/").map((theater, index) => (
         <div
           onClick={() => {
             playCardToTheater(id, theater);
@@ -31,6 +31,7 @@ export default function Board({ id, gameData }) {
           style={{ flex: 1 }}
         >
           <TheaterSide
+            theaterIndex={index}
             opposite={true}
             player={otherPlayer}
             theater={gameData?.theaters?.[theater]}
@@ -62,7 +63,7 @@ export default function Board({ id, gameData }) {
   );
 }
 
-function TheaterSide({ opposite, player, theater, isYours }) {
+function TheaterSide({ opposite, player, theater, theaterIndex, isYours }) {
   const [specialBoardAction] = useStore("specialBoardAction", "redeploy");
 
   return (
@@ -78,7 +79,7 @@ function TheaterSide({ opposite, player, theater, isYours }) {
       {theater?.[player]?.map((card, index) => (
         <div
           style={{
-            zIndex: index,
+            zIndex: theaterIndex * 10 + index,
             position: "absolute",
             [opposite ? "bottom" : "top"]: index * 32,
           }}

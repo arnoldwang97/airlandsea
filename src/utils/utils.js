@@ -81,10 +81,17 @@ export function getTheaterName(theater) {
 }
 
 export function getOtherPlayerID(playerID) {
-  return playerID == store.getState().game?.player1
-    ? store.getState().game?.player2
-    : store.getState().game?.player1;
+  return playerID === store.getState().game?.player2
+    ? store.getState().game?.player1
+    : store.getState().game?.player2;
 }
 export function getPlayerScore(playerID) {
-  return store.getState().game?.score[playerID];
+  const player1ID = store.getState().game?.player1;
+  const temp = store.getState().game?.score?.[
+    store.getState().game?.player1 === playerID ||
+    store.getState().game?.player2 === playerID
+      ? playerID
+      : player1ID
+  ];
+  return temp;
 }
