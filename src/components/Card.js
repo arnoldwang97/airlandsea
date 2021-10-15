@@ -1,12 +1,14 @@
 import { useStore } from "react-context-hook";
 import { setUserProperties } from "@firebase/analytics";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
 import { getCardInfo, getTheaterColor } from "../utils/utils";
 import Facedown from "./Facedown";
 import "../css/Card.css";
 
-const CARD_HEIGHT = 180;
-const CARD_WIDTH = 120;
+const CARD_HEIGHT = "10.5rem";
+const CARD_WIDTH = "7.3rem";
 
 export default function Card({
   id,
@@ -40,44 +42,47 @@ export default function Card({
   }
 
   const cardTitleStyle = {
-    fontSize: 16,
+    fontSize: "1rem",
     color: "#fff",
     fontWeight: "bold",
   };
 
   return (
     <div style={{ position: "relative" }}>
-      <div style={{ height: 30 }}>
-        {selectedCardID === id ? (
-          <button
-            onClick={() => {
-              if (facedownCardID === id) {
-                setFacedownCardID(null);
-              } else {
-                setFacedownCardID(id);
-              }
-            }}
-          >
-            {facedownCardID === id ? "Play Face Up" : "Play Face Down"}
-          </button>
-        ) : null}
-      </div>
+      {!isYours || !inHand ? null : (
+        <div style={{ height: "2.5rem" }}>
+          {selectedCardID === id ? (
+            <button
+              onClick={() => {
+                if (facedownCardID === id) {
+                  setFacedownCardID(null);
+                } else {
+                  setFacedownCardID(id);
+                }
+              }}
+            >
+              <FontAwesomeIcon icon={faSyncAlt} />
+            </button>
+          ) : null}
+        </div>
+      )}
       <div
         style={{
           minHeight: CARD_HEIGHT,
           width: CARD_WIDTH,
           backgroundColor: color,
           textAlign: "left",
-          border: "6px solid " + color,
-          borderRadius: 4,
-          padding: 4,
+          border: "0.5rem solid " + color,
+          borderRadius: "0.2rem",
+          padding: "0.2rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           color: "#fff",
           ...{
-            outline: selectedCardID === id ? "" : "2px solid #fff",
-            boxShadow: selectedCardID === id ? "0px 0px 5px 3px #fad460" : "",
+            outline: selectedCardID === id ? "" : "0.15rem solid #fff",
+            boxShadow:
+              selectedCardID === id ? "0px 0px 0.3rem 0.2rem #fad460" : "",
             flexDirection: opposite ? "column-reverse" : "column",
           },
         }}
@@ -99,20 +104,21 @@ export default function Card({
             position: "absolute",
             [opposite ? "bottom" : "top"]: 0,
             right: 0,
-            fontSize: 16,
             color: "#fff",
             textAlign: "right",
           }}
         >
-          <div style={{ fontSize: displayCardInfo.name.length > 9 ? 12 : 16 }}>
+          <div style={{ fontSize: "0.9rem", maxWidth: "100%" }}>
             {displayCardInfo.name}
           </div>
         </div>
         <div>
           {displayCardInfo.description != null ? (
-            <div style={{ fontSize: 13 }}>{displayCardInfo.description}</div>
+            <div style={{ fontSize: "0.8rem" }}>
+              {displayCardInfo.description}
+            </div>
           ) : (
-            <div style={{ fontSize: 40, fontWeight: 500 }}>
+            <div style={{ fontSize: "3rem", fontWeight: 500 }}>
               {displayCardInfo.value}
             </div>
           )}
@@ -132,26 +138,26 @@ export default function Card({
         <div
           className="popover"
           style={{
-            border: "4px solid " + getTheaterColor(cardInfo.theater),
+            border: "0.3rem solid " + getTheaterColor(cardInfo.theater),
             [opposite ? "bottom" : "top"]: 0,
-            [inHand ? "left" : "right"]: "calc(100% + 10px)",
+            [inHand ? "left" : "right"]: "calc(100% + 1rem)",
           }}
         >
           <div
             style={{
               display: "flex",
               flexDirection: "row",
-              paddingRight: 4,
-              fontSize: 20,
-              marginBottom: 4,
+              paddingRight: "0.2rem",
+              fontSize: "1.3rem",
+              marginBottom: "0.2rem",
             }}
           >
-            <div style={{ fontWeight: "bold", marginRight: 8 }}>
+            <div style={{ fontWeight: "bold", marginRight: "0.8rem" }}>
               {cardInfo.value}
             </div>
             {cardInfo.name}
           </div>
-          <div style={{ fontSize: 16 }}>{cardInfo.description}</div>
+          <div style={{ fontSize: "1rem" }}>{cardInfo.description}</div>
         </div>
       )}
     </div>

@@ -2,6 +2,8 @@ import { withStore } from "react-context-hook";
 import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import "./css/All.css";
+
 import PlayerIDCheck from "./components/PlayerIDCheck";
 import Room from "./screens/Room";
 import Home from "./screens/Home";

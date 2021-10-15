@@ -39,13 +39,13 @@ export default function Board({ id, gameData }) {
           <div
             style={{
               display: "flex",
-              height: 150,
+              height: "10rem",
               backgroundColor: getTheaterColor(theater),
               justifyContent: "center",
               alignItems: "center",
-              marginTop: 8,
-              marginBottom: 8,
-              fontSize: 70,
+              marginTop: "0.5rem",
+              marginBottom: "0.5rem",
+              fontSize: "5rem",
               fontWeight: 600,
               color: "#fff",
             }}
@@ -81,7 +81,7 @@ function TheaterSide({ opposite, player, theater, theaterIndex, isYours }) {
           style={{
             zIndex: theaterIndex * 10 + index,
             position: "absolute",
-            [opposite ? "bottom" : "top"]: index * 32,
+            [opposite ? "bottom" : "top"]: index * 2.1 + "rem",
           }}
         >
           <Card
