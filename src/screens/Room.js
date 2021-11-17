@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useStore } from "react-context-hook";
+import "../css/Screen.css";
 
 import { getRoomData, updateRoomField, startGame } from "../utils/db";
 
@@ -48,17 +49,28 @@ export default function Room() {
   const player2 = roomData.players?.filter((id) => id !== player1)?.[0];
 
   return (
-    <div>
-      <div>{"Player 1: " + player1}</div>
-      {player2 != null ? <div>{"Player 2: " + player2}</div> : null}
-      {playerID === roomData.owner ? (
-        <button
-          onClick={() => startGame(id, roomData.players)}
-          disabled={player1 == null || player2 == null}
-        >
-          Start Game
-        </button>
-      ) : null}
+    <div class="background1">
+      <div class="background2">
+        <div class="d2">
+          {"Player 1 is in the waiting room"}
+
+          {player2 != null ? (
+            <div>{"Player 2 is in the waiting room"}</div>
+          ) : null}
+        </div>
+
+        {playerID === roomData.owner ? (
+          <div>
+            <button
+              class="b1"
+              onClick={() => startGame(id, roomData.players)}
+              disabled={player1 == null || player2 == null}
+            >
+              Start Game
+            </button>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

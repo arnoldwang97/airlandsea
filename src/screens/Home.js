@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { createRoom } from "../utils/db";
+import "../css/Screen.css";
 
 export default function Home() {
   const [roomID, setRoomID] = useState(null);
@@ -14,5 +15,15 @@ export default function Home() {
   if (roomID != null) {
     return <Redirect to={"/rooms/" + roomID} />;
   }
-  return <button onClick={createAndGoToRoom}>Create Room</button>;
+  return (
+    <div class="background1">
+      <div class="background2">
+        <div>
+          <button class="b1" onClick={createAndGoToRoom}>
+            Create Room
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
