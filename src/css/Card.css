@@ -1,13 +1,12 @@
 .popover {
   display: none;
   position: absolute;
-  width: 150px;
-  min-height: 100px;
+  width: 15vmin;
   background-color: #fff;
-  padding: 8px;
+  padding: 1vmin;
   text-align: left;
   z-index: 99;
-  outline: 4px solid #fff;
+  outline: 0.5vmin solid #fff;
 }
 
 .anchor:hover + .popover {
